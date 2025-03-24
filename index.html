@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wissenschaftlicher Taschenrechner</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@12/lib/browser/math.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="calculator">
+        <div class="led-container">
+            <div id="status-led" class="led off"></div>
+            <div class="label">casio-fx 007</div>
+            <button id="theme-toggle">🌙 | ☀️</button>
+        </div>
+
+        <div class="row">
+            <div id="display-container"
+                style="position: relative; width: 100%; height: 100%; margin-left: 5px; margin-right: 15px;">
+                <textarea id="display" rows="8"></textarea>
+                <canvas id="plot-canvas"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+
+        <div class="row">
+            <button id="power" class="btn special">ON</button>
+            <button id="clear" class="btn special">AC</button>
+            <button id="backspace" class="btn special">DEL</button>
+        </div>
+
+        <div class="row">
+            <button id="plot-btn" class="btn special" data-value="">PLOT</button>
+            <button id="zoom-in" class="btn special" data-value="">+</button>
+            <button id="zoom-out" class="btn special" data-value="">-</button>
+            <button id="reset-zoom" class="btn special" data-value="">RESET</button>
+        </div>
+
+        <div class="row">
+            <button id="decToBin" class="btn special" data-value="" title="Dezimal zu Binär">D ➔ B</button>
+            <button id="decToOct" class="btn special" data-value="" title="Dezimal zu Oktal">D ➔ O</button>
+            <button id="decToHex" class="btn special" data-value="" title="Dezimal zu Hex">D ➔ H</button>
+        </div>
+
+        <div class="row">
+            <button id="binToDec" class="btn special" data-value="" title="Binär zu Dezimal">B ➔ D</button>
+            <button id="octToDec" class="btn special" data-value="" title="Oktal zu Dezimal">O ➔ D</button>
+            <button id="hexToDec" class="btn special" data-value="" title="Hex zu Dezimal">H ➔ D</button>
+        </div>
+
+        <div class="row">
+            <button class="btn func">sin</button>
+            <button class="btn func">cos</button>
+            <button class="btn func">tan</button>
+            <button class="btn func" data-value="sin⁻¹">sin⁻¹</button>
+            <button class="btn func" data-value="cos⁻¹">cos⁻¹</button>
+            <button class="btn func" data-value="tan⁻¹">tan⁻¹</button>
+        </div>
+
+        <div class="row">
+            <button class="btn func">√</button>
+            <button class="btn func" data-value="²">x²</button>
+            <button class="btn func" data-value="³">x³</button>
+            <button class="btn" data-value="^">xʸ</button>
+        </div>
+
+        <div class="row">
+
+            <button class="btn func" data-value="log">log</button>
+            <button class="btn func" data-value="ln">ln</button>
+            <button class="btn" data-value="e">e</button>
+            <button class="btn operator" data-value="%">%</button>
+        </div>
+
+        <div class="row">
+            <button class="btn">(</button>
+            <button class="btn">)</button>
+            <button class="btn" data-value="!">!</button>
+            <button class="btn" data-value="π">π</button>
+            <button class="btn">mod</button>
+        </div>
+
+        <div class="row">
+            <button class="btn">7</button>
+            <button class="btn">8</button>
+            <button class="btn">9</button>
+            <button class="btn operator">÷</button>
+        </div>
+
+        <div class="row">
+            <button class="btn">4</button>
+            <button class="btn">5</button>
+            <button class="btn">6</button>
+            <button class="btn operator">×</button>
+        </div>
+
+        <div class="row">
+            <button class="btn">1</button>
+            <button class="btn">2</button>
+            <button class="btn">3</button>
+            <button class="btn operator">-</button>
+        </div>
+
+        <div class="row">
+            <button class="btn">0</button>
+            <button class="btn">.</button>
+            <button id="execute" class="btn equal">EXE</button>
+            <button class="btn operator">+</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
