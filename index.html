@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/mathjs@12/lib/browser/math.js"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
@@ -26,7 +25,7 @@
         <div class="row">
             <div id="display-container"
                 style="position: relative; width: 100%; height: 100%; margin-left: 5px; margin-right: 15px;">
-                <textarea id="display" rows="8"></textarea>
+                <textarea id="display"></textarea>
                 <canvas id="plot-canvas"
                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
             </div>
@@ -34,38 +33,23 @@
 
         <div class="row">
             <button id="power" class="btn special">ON</button>
-            <button id="clear" class="btn special">AC</button>
-            <button id="backspace" class="btn special">DEL</button>
+            <button id="clear" class="btn special" data-value="">AC</button>
+            <button id="backspace" class="btn special" data-value="">DEL</button>
         </div>
 
+        <!-- Matrix / Bin / Plot / Trig Umschalter -->
         <div class="row">
+            <button id="matrix-btn" class="btn special" data-value="">MAT</button>
+            <button id="bin-btn" class="btn special" data-value="">BIN</button>
             <button id="plot-btn" class="btn special" data-value="">PLOT</button>
-            <button id="zoom-in" class="btn special" data-value="">+</button>
-            <button id="zoom-out" class="btn special" data-value="">-</button>
-            <button id="reset-zoom" class="btn special" data-value="">RESET</button>
+            <button id="trig-btn" class="btn special" data-value="">TRIG</button>
+            <button id="conv-btn" class="btn special" data-value="">CONV</button>
         </div>
 
-        <div class="row">
-            <button id="decToBin" class="btn special" data-value="" title="Dezimal zu Binär">D ➔ B</button>
-            <button id="decToOct" class="btn special" data-value="" title="Dezimal zu Oktal">D ➔ O</button>
-            <button id="decToHex" class="btn special" data-value="" title="Dezimal zu Hex">D ➔ H</button>
-        </div>
+        <!-- Dynamisches Untermenü -->
+        <div id="submenu" class="row"></div>
 
-        <div class="row">
-            <button id="binToDec" class="btn special" data-value="" title="Binär zu Dezimal">B ➔ D</button>
-            <button id="octToDec" class="btn special" data-value="" title="Oktal zu Dezimal">O ➔ D</button>
-            <button id="hexToDec" class="btn special" data-value="" title="Hex zu Dezimal">H ➔ D</button>
-        </div>
-
-        <div class="row">
-            <button class="btn func">sin</button>
-            <button class="btn func">cos</button>
-            <button class="btn func">tan</button>
-            <button class="btn func" data-value="sin⁻¹">sin⁻¹</button>
-            <button class="btn func" data-value="cos⁻¹">cos⁻¹</button>
-            <button class="btn func" data-value="tan⁻¹">tan⁻¹</button>
-        </div>
-
+        <!-- Restliche Buttons -->
         <div class="row">
             <button class="btn func">√</button>
             <button class="btn func" data-value="²">x²</button>
@@ -74,7 +58,6 @@
         </div>
 
         <div class="row">
-
             <button class="btn func" data-value="log">log</button>
             <button class="btn func" data-value="ln">ln</button>
             <button class="btn" data-value="e">e</button>
@@ -113,12 +96,13 @@
         <div class="row">
             <button class="btn">0</button>
             <button class="btn">.</button>
-            <button id="execute" class="btn equal">EXE</button>
+            <button id="execute" class="btn equal" data-value="">EXE</button>
             <button class="btn operator">+</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="js/main.js"></script>
+
 </body>
 
 </html>

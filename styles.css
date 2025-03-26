@@ -140,27 +140,45 @@ body {
     background-color: #ccc;
 }
 
-.light-mode #execute {
-    background-color: #1a5ad1;
-    color: white;
-}
-
-.light-mode #power {
-    background-color: red;
-    color: white;
-}
-
-.light-mode #clear {
-    background-color: #c49292;
-    color: white;
-}
-
-.light-mode #backspace {
-    background-color: rgb(173, 147, 123);
-    color: white;
-}
-
 /* CASIO Label bleibt hell im Light Mode */
 .light-mode .label {
     color: #f0f0f0;
+}
+
+
+/* sub-menu */
+/* Aktiv-Farben */
+.active-main {
+    background-color: rgb(247, 206, 131) !important;
+    color: black !important;
+    text-decoration: underline;
+}
+
+#submenu {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(247, 206, 131);
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.sub-btn {
+    height: 40px;
+    font-size: 18px;
+    margin: 5px;
+    flex: 1 1 auto;
+    /* Sub-Buttons nehmen den verfügbaren Platz ein */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sub-btn {
+    background: #444;
+    color: white;
+}
+
+.sub-btn:hover {
+    background: #666;
 }
