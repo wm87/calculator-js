@@ -1,8 +1,12 @@
 "use strict";
 
-export let datasets = [], foundZeros = [], foundExtrema = [], errorFunctions = [];
+const plot = $("#plotBtn");
 
-import { powerOn, chart, display } from './ui.js';
+export let datasets = [], foundZeros = [], foundExtrema = [], errorFunctions = [];
+export let chart;
+export let ctx = document.getElementById('plot-canvas').getContext('2d');
+
+import { powerOn, display } from './ui.js';
 import { submenu } from './subs.js';
 
 
@@ -27,6 +31,43 @@ const extremaDataset = {
     backgroundColor: []
 };
 
+export function plotChart() {
+
+    submenu.on('click', '#plotBtn', function () {
+        if (!powerOn) return;
+
+        console.log('Plot-Button clicked');
+
+        display.val('');   // Textfeld leeren
+        let input = $('#functionInput').val();
+        if (!input) return;
+
+        removeChart(chart);
+
+        // Neues Diagramm erstellen
+        chart = new Chart(ctx, {
+            type: 'line',
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // <- WICHTIG, sonst bleibt das Chart quadratisch!
+                datasets: [],
+                interaction: { mode: 'nearest' },
+                scales: { x: { type: 'linear', min: -10, max: 10 }, y: { min: -10, max: 10 } },
+                plugins: {
+                    legend: { labels: { usePointStyle: true } },
+                    tooltip: { callbacks: { label: ctx => `x: ${ctx.parsed.x.toFixed(2)}, y: ${ctx.parsed.y !== null ? ctx.parsed.y.toFixed(2) : 'undefiniert'}` } },
+                    zoom: {
+                        zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'xy' },
+                        pan: { enabled: true, mode: 'xy' }
+                    }
+                }
+            }
+        });
+
+        updateChartAndTable(input);
+        adjustScaling();
+    });
+}
 
 function computeY(fx, x) {
     try {

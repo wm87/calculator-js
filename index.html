@@ -7,6 +7,8 @@
     <title>Wissenschaftlicher Taschenrechner</title>
 
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mat.css">
+    <link rel="stylesheet" href="plot.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1"></script>
@@ -22,12 +24,80 @@
             <button id="theme-toggle">🌙 | ☀️</button>
         </div>
 
-        <div class="row">
-            <div id="display-container"
-                style="position: relative; width: 100%; height: 100%; margin-left: 5px; margin-right: 15px;">
+        <div class="box">
+            <div class="view textarea-view">
                 <textarea id="display"></textarea>
-                <canvas id="plot-canvas"
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+            </div>
+
+            <div class="view chart-view">
+                <canvas id="plot-canvas"></canvas>
+            </div>
+
+            <div class="view html-view">
+                <div class="rendered-html">
+                    <h1>Matrix Pro</h1>
+
+                    <section>
+                        <div class="box-mat">
+                            <h2>Import | Export</h2>
+                            <div class="matrix-controls">
+                                <label>Mat A: <input type="file" id="uploadA"></label>
+                                <label>Mat B: <input type="file" id="uploadB"></label>
+                            </div>
+                            <div class="matrix-controls">
+                                <button id="downloadA">Export Matrix A</button>
+                                <button id="downloadB">Export Matrix B</button>
+                            </div>
+                        </div>
+
+                        <div class="box-mat">
+                            <h2>Matrix A</h2>
+                            <div class="matrix-controls">
+                                Rows: <input type="number" id="rowsA" value="2" min="1" max="20">
+                                Columns: <input type="number" id="colsA" value="2" min="1" max="20">
+                                <button id="generateA">Generate A</button>
+                            </div>
+                            <div id="matrixA"></div>
+                        </div>
+
+                        <div class="box-mat">
+                            <h2>Matrix B</h2>
+                            <div class="matrix-controls">
+                                Rows: <input type="number" id="rowsB" value="2" min="1" max="20">
+                                Columns: <input type="number" id="colsB" value="2" min="1" max="20">
+                                <button id="generateB">Generate B</button>
+                            </div>
+                            <div id="matrixB"></div>
+                        </div>
+
+                        <div class="box-mat">
+                            <h2>Operations</h2>
+                            <div class="operations">
+                                <button id="add">A + B</button>
+                                <button id="subtract">A - B</button>
+                                <button id="multiply">A × B</button>
+                                <button id="transposeA">Transpose A</button>
+                                <button id="transposeB">Transpose B</button>
+                                <button id="inverseA">Inverse A</button>
+                                <button id="inverseB">Inverse B</button>
+                                <button id="detA">Determinant A</button>
+                                <button id="detB">Determinant B</button>
+                            </div>
+                        </div>
+
+                        <div class="box-mat">
+                            <h2>Result</h2>
+                            <div id="result"></div>
+                        </div>
+
+                        <div class="box-mat">
+                            <h2>History</h2>
+                            <button id="clearHistory">Delete History</button>
+                            <div id="history"></div>
+                        </div>
+
+                    </section>
+                </div>
             </div>
         </div>
 
@@ -39,15 +109,15 @@
 
         <!-- Matrix / Bin / Plot / Trig Umschalter -->
         <div class="row">
-            <button id="matrix-btn" class="btn special" data-value="">MAT</button>
-            <button id="bin-btn" class="btn special" data-value="">BIN</button>
-            <button id="plot-btn" class="btn special" data-value="">PLOT</button>
-            <button id="trig-btn" class="btn special" data-value="">TRIG</button>
-            <button id="conv-btn" class="btn special" data-value="">CONV</button>
+            <button id="matrix-btn" class="btn switch-btn" data-view="html">MAT</button>
+            <button id="bin-btn" class="btn switch-btn" data-value="" data-view="textarea">BIN</button>
+            <button id="plot-btn" class="btn switch-btn" data-view="chart">PLOT</button>
+            <button id="trig-btn" class="btn switch-btn" data-value="" data-view="textarea">TRIG</button>
+            <button id="conv-btn" class="btn switch-btn" data-value="" data-view="textarea">CONV</button>
         </div>
 
         <!-- Dynamisches Untermenü -->
-        <div id="submenu" class="row"></div>
+        <div id="submenu" class="row" style="display: none;"></div>
 
         <!-- Restliche Buttons -->
         <div class="row">

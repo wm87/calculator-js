@@ -3,8 +3,8 @@
 export const power = $("#power");
 export let powerOn = false;
 export let display = $("#display");
-export let chart;
-export let ctx = document.getElementById('plot-canvas').getContext('2d');
+export let display_mat = $(".view.html-view");
+
 
 const clear = $("#clear");
 const backspace = $("#backspace");
@@ -13,8 +13,10 @@ const themeToggle = $("#theme-toggle");
 const calculator = $("#calculator");
 const execute = $("#execute");
 
-import { updateChartAndTable, adjustScaling, removeChart } from './plot.js';
+import { chart, plotChart, removeChart } from './plot.js';
 import { calculate } from './calc.js';
+import * as Matrix from './mat.js';
+
 
 $(document).ready(function () {
 
@@ -27,6 +29,10 @@ $(document).ready(function () {
         display.prop("disabled", !powerOn)
             .css("background-color", powerOn ? "white" : "")
             .val("");
+
+        //$(".html-view").css("display", powerOn ? "block" : "none");
+
+
         statusLed.toggleClass("on", powerOn).toggleClass("off", !powerOn);
         setTimeout(() => { display.val(""); }, 500);
     });
@@ -34,11 +40,8 @@ $(document).ready(function () {
     // AC Button
     clear.on("click", function () {
         if (powerOn) {
-            $('#display').val('');   // Textfeld leeren
-            if (chart) {
-                chart.destroy();
-                chart = null;
-            }
+            $('#display').val('');
+            removeChart(chart);
         }
     });
 
@@ -56,37 +59,7 @@ $(document).ready(function () {
     });
 
     // Plot-Button-Event
-    $('#plot-btn').on('click', function () {
-        if (!powerOn) return;
-
-        display.val('');   // Textfeld leeren
-        let expr = prompt("Gib die Funktion in Abhängigkeit von x ein (z.B. sin(x), x^2, log(x)):");
-        if (!expr) return;
-
-        removeChart(chart);
-
-        // Neues Diagramm erstellen
-        chart = new Chart(ctx, {
-            type: 'line',
-            options: {
-                responsive: true,
-                datasets: [],
-                interaction: { mode: 'nearest' },
-                scales: { x: { type: 'linear', min: -10, max: 10 }, y: { min: -10, max: 10 } },
-                plugins: {
-                    legend: { labels: { usePointStyle: true } },
-                    tooltip: { callbacks: { label: ctx => `x: ${ctx.parsed.x.toFixed(2)}, y: ${ctx.parsed.y !== null ? ctx.parsed.y.toFixed(2) : 'undefiniert'}` } },
-                    zoom: {
-                        zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'xy' },
-                        pan: { enabled: true, mode: 'xy' }
-                    }
-                }
-            }
-        });
-
-        updateChartAndTable(expr);
-        adjustScaling();
-    });
+    plotChart();
 
     // EXE-Button
     execute.on("click", function () {
@@ -114,4 +87,26 @@ $(document).ready(function () {
         }
     });
 
+
+    $('#generateA').click(() => Matrix.createMatrix($('#rowsA').val(), $('#colsA').val(), '#matrixA'));
+    $('#generateB').click(() => Matrix.createMatrix($('#rowsB').val(), $('#colsB').val(), '#matrixB'));
+
+    $('#add').click(() => Matrix.displayResult('Addition A + B', Matrix.addMatrices(Matrix.readMatrix('#matrixA'), Matrix.readMatrix('#matrixB'))));
+    $('#subtract').click(() => Matrix.displayResult('Subtraction A - B', Matrix.subtractMatrices(Matrix.readMatrix('#matrixA'), Matrix.readMatrix('#matrixB'))));
+    $('#multiply').click(() => Matrix.displayResult('Multiplication A × B', Matrix.multiplyMatrices(Matrix.readMatrix('#matrixA'), Matrix.readMatrix('#matrixB'))));
+    $('#transposeA').click(() => Matrix.displayResult('Transpose A', Matrix.transposeMatrix(Matrix.readMatrix('#matrixA'))));
+    $('#transposeB').click(() => Matrix.displayResult('Transpose B', Matrix.transposeMatrix(Matrix.readMatrix('#matrixB'))));
+    $('#inverseA').click(() => Matrix.displayResult('Inverse A', Matrix.inverseMatrix(Matrix.readMatrix('#matrixA'))));
+    $('#inverseB').click(() => Matrix.displayResult('Inverse B', Matrix.inverseMatrix(Matrix.readMatrix('#matrixB'))));
+
+    $('#detA').click(() => Matrix.displayResult('Determinant A', Matrix.determinant(Matrix.readMatrix('#matrixA'))));
+    $('#detB').click(() => Matrix.displayResult('Determinant B', Matrix.determinant(Matrix.readMatrix('#matrixB'))));
+
+    $('#downloadA').click(() => Matrix.downloadMatrix(Matrix.readMatrix('#matrixA'), 'matrixA.json'));
+    $('#downloadB').click(() => Matrix.downloadMatrix(Matrix.readMatrix('#matrixB'), 'matrixB.json'));
+
+    $('#uploadA').change(function () { Matrix.uploadMatrix(this, '#matrixA'); });
+    $('#uploadB').change(function () { Matrix.uploadMatrix(this, '#matrixB'); });
+
+    $('#clearHistory').click(() => { Matrix.clearHistory(); });
 });

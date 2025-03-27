@@ -2,8 +2,8 @@
 
 export let submenu = $("#submenu");
 
-import { display, chart } from './ui.js';
-import { removeChart } from './plot.js';
+import { display } from './ui.js';
+import { chart, removeChart } from './plot.js';
 
 $(document).ready(function () {
 
@@ -16,13 +16,7 @@ $(document).ready(function () {
     $("#matrix-btn").click(() => {
         removeChart(chart);
         activateMainButton("#matrix-btn");
-        submenu.empty().show().append(`
-    <button class="sub-btn" data-value="">Add</button>
-    <button class="sub-btn" data-value="">Sub</button>
-    <button class="sub-btn" data-value="">Mul</button>
-    <button class="sub-btn" data-value="">Det</button>
-    <button class="sub-btn" data-value="">Inv</button>
-`);
+        submenu.empty().show().append(``);
         display.val('');   // Textfeld leeren
     });
 
@@ -46,8 +40,10 @@ $(document).ready(function () {
         removeChart(chart);
         activateMainButton("#plot-btn");
         submenu.empty().show().append(`
-    <button id="zoom-in" class="sub-btn" data-value="">Zoom IN</button>
-    <button id="zoom-out" class="sub-btn" data-value="">Zoom OUT</button>
+    <input type="text" id="functionInput" placeholder="z.B. x^2, sin(x)">
+    <button id="plotBtn" class="btn func" data-value="">Show</button>
+    <button id="zoom-in" class="sub-btn" data-value="">Zoom In</button>
+    <button id="zoom-out" class="sub-btn" data-value="">Zoom Out</button>
     <button id="reset-zoom" class="sub-btn" data-value="">Reset</button>
     <button id="findZeros" class="sub-btn" data-value="">Find Zeros</button>
     <button id="resetZeros" class="sub-btn" data-value="">Reset Zeros</button>
