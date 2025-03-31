@@ -3,7 +3,7 @@
 export const power = $("#power");
 export let powerOn = false;
 export let display = $("#display");
-export let display_mat = $(".view.html-view");
+export let welcome = $("#view0");
 
 
 const clear = $("#clear");
@@ -16,25 +16,57 @@ const execute = $("#execute");
 import { chart, plotChart, removeChart } from './plot.js';
 import { calculate } from './calc.js';
 import * as Matrix from './mat.js';
-
+import * as Conv from './conv.js';
+import { submenu } from './subs.js';
 
 $(document).ready(function () {
 
     // Power ON/OFF
     power.on("click", function () {
+
+        if (powerOn) {
+            submenu.empty();
+            $("#std-btn, #matrix-btn, #bin-btn, #plot-btn, #trig-btn, #conv-btn").prop("disabled", true);
+            $("#std-btn, #matrix-btn, #bin-btn, #plot-btn, #trig-btn, #conv-btn").removeClass("active-main");
+            $(".textarea-wrapper").hide();
+            $('.view-content').hide();
+
+            setTimeout(() => {
+                $('.off-content').show();
+                $(this).text('ON');
+            }, 500);
+        } else {
+            $('.off-content').hide();
+            $("#std-btn, #matrix-btn, #bin-btn, #plot-btn, #trig-btn, #conv-btn").prop("disabled", false);
+
+            setTimeout(() => {
+                welcome.show();
+                $(this).text('OFF');
+            }, 500);
+        }
+
         powerOn = !powerOn;
 
-        removeChart(chart);
+        setTimeout(() => {
+            statusLed.toggleClass("on", powerOn).toggleClass("off", !powerOn);
+        }, 500);
+    });
 
-        display.prop("disabled", !powerOn)
-            .css("background-color", powerOn ? "white" : "")
-            .val("");
+    // Tabs wechseln (nur wenn eingeschaltet)
+    $('.switchView').click(function () {
 
-        //$(".html-view").css("display", powerOn ? "block" : "none");
+        if (powerOn) {
+            let target = $(this).data('target');
+            $('.view-content').hide();
+            $('#' + target).fadeIn();
 
-
-        statusLed.toggleClass("on", powerOn).toggleClass("off", !powerOn);
-        setTimeout(() => { display.val(""); }, 500);
+            // Textarea nur anzeigen bei:
+            if (target === "view0" || target === "view2" || target === "view4") {
+                $(".textarea-wrapper").show();
+            } else {
+                $(".textarea-wrapper").hide();
+            }
+        }
     });
 
     // AC Button
@@ -88,6 +120,7 @@ $(document).ready(function () {
     });
 
 
+    // Matrix-Buttons
     $('#generateA').click(() => Matrix.createMatrix($('#rowsA').val(), $('#colsA').val(), '#matrixA'));
     $('#generateB').click(() => Matrix.createMatrix($('#rowsB').val(), $('#colsB').val(), '#matrixB'));
 
@@ -109,4 +142,28 @@ $(document).ready(function () {
     $('#uploadB').change(function () { Matrix.uploadMatrix(this, '#matrixB'); });
 
     $('#clearHistory').click(() => { Matrix.clearHistory(); });
+
+
+    //Conversion-Buttons
+    $("#category").change(function () {
+        Conv.updateUnits($(this).val());
+    });
+
+    $("#convert").click(function () {
+        let value = parseFloat($("#inputValue").val());
+        let category = $("#category").val();
+        let unitFrom = $("#unitFrom").val();
+        let unitTo = $("#unitTo").val();
+
+        if (isNaN(value)) {
+            $("#resultConv").val("Fehler");
+            return;
+        }
+
+        let result = category === "temperature"
+            ? Conv.convertTemperature(value, unitFrom, unitTo)
+            : (value / Conv.units[category][unitFrom]) * Conv.units[category][unitTo];
+
+        $("#resultConv").val(result.toFixed(4));
+    });
 });

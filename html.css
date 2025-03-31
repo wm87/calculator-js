@@ -7,7 +7,14 @@ section {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    padding-bottom: 3px;
+}
+
+h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
 }
 
 h2,
@@ -15,9 +22,9 @@ h2,
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     gap: 5px;
     flex-wrap: wrap;
-    margin-bottom: 15px;
 }
 
 .rendered-html button {
@@ -50,7 +57,6 @@ h2,
     width: 50px;
     height: 40px;
     font-size: 14px;
-    ;
     text-align: center;
     border: none;
 }

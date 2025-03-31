@@ -39,7 +39,7 @@ export function plotChart() {
         console.log('Plot-Button clicked');
 
         display.val('');   // Textfeld leeren
-        let input = $('#functionInput').val();
+        let input = $('#plotInput').val();
         if (!input) return;
 
         removeChart(chart);

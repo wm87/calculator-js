@@ -1,0 +1,27 @@
+/* Eingabefelder und Dropdowns */
+.input-group {
+    display: flex;
+    justify-content: stretch;
+    margin: 10px 0;
+}
+
+input,
+select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+
+/* Pfeil */
+.arrow {
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
