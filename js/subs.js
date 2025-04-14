@@ -3,7 +3,6 @@
 export let submenu = $("#submenu");
 
 import { display } from './ui.js';
-import { chart, removeChart } from './plot.js';
 
 $(document).ready(function () {
 
@@ -11,10 +10,9 @@ $(document).ready(function () {
         $("#std-btn, #matrix-btn, #bin-btn, #plot-btn, #trig-btn, #conv-btn").removeClass("active-main");
         $(buttonId).addClass("active-main");
     }
-    
+
     // Standard
     $("#std-btn").click(() => {
-        removeChart(chart);
         activateMainButton("#std-btn");
         submenu.empty();
         display.val('');
@@ -22,8 +20,6 @@ $(document).ready(function () {
 
     // Matrix
     $("#matrix-btn").click(() => {
-        removeChart(chart);
-
         activateMainButton("#matrix-btn");
         submenu.empty();
         display.val('');
@@ -31,7 +27,6 @@ $(document).ready(function () {
 
     // Binär
     $("#bin-btn").click(() => {
-        removeChart(chart);
         activateMainButton("#bin-btn");
         submenu.empty().show().append(`
     
@@ -47,24 +42,21 @@ $(document).ready(function () {
 
     // Plot
     $("#plot-btn").click(() => {
-        removeChart(chart);
         activateMainButton("#plot-btn");
         submenu.empty().show().append(`
-    <input type="text" id="plotInput" placeholder="z.B. x^2, sin(x)">
-    <button id="plotBtn" class="btn func" data-value="">Show</button>
-    <button id="zoom-in" class="sub-btn" data-value="">Zoom In</button>
-    <button id="zoom-out" class="sub-btn" data-value="">Zoom Out</button>
-    <button id="reset-zoom" class="sub-btn" data-value="">Reset</button>
-    <button id="findZeros" class="sub-btn" data-value="">Find Zeros</button>
-    <button id="resetZeros" class="sub-btn" data-value="">Reset Zeros</button>
-    <button id="findExtrema" class="sub-btn" data-value="">Find Extrema</button>
-    <button id="resetExtrema" class="sub-btn" data-value="">Reset Extrema</button>
+    <input type="text" id="plotInput" placeholder="z.B. sin(x)">
+    <button id="analyzeBtn" class="sub-btn" data-value="">Show</button>
+    <button id="reset-zoom" class="sub-btn" data-value="">Res</button>
+    <label for="minX">Intervall:</label>
+    <input type="number" id="minX" value="-10" />
+    <label for="maxX">bis:</label>
+    <input type="number" id="maxX" value="10" />
+    <button id="openAnalyseBtn" class="sub-btn" data-value="">Analyse Function</button>
 `);
     });
 
     // Trigonometrie
     $("#trig-btn").click(() => {
-        removeChart(chart);
         activateMainButton("#trig-btn");
         submenu.empty().show().append(`
     <button class="sub-btn func">sin</button>
@@ -79,7 +71,6 @@ $(document).ready(function () {
 
     // Konverter
     $("#conv-btn").click(() => {
-        removeChart(chart);
         activateMainButton("#conv-btn");
         submenu.empty();
         display.val('');
@@ -89,6 +80,4 @@ $(document).ready(function () {
     $(document).on("click", ".sub-btn", function () {
         $(this).toggleClass("active-sub");
     });
-
-
 });
