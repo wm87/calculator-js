@@ -11,7 +11,7 @@ Ein vielseitiger, browserbasierter grafischer Taschenrechner in **JavaScript**, 
   Addition, Subtraktion, Multiplikation und Determinanten von Matrizen.
 
 - **Binärrechner**  
-  Umrechnung und Rechenoperationen im Binär-, Octal- und Hexadezimalsystem.
+  Umrechnung zwischen Binär-, Octal- und Hexadezimalsystem.
 
 - **Funktionsplotter**  
   Visualisierung mathematischer Funktionen mit:
